@@ -1,3 +1,4 @@
+import { FileOptions } from '@supabase/storage-js'
 import { SupabaseClient, createClient } from '@supabase/supabase-js'
 
 import { getFilePath } from './helpers/get-file-path.helper'
@@ -123,9 +124,10 @@ export class SupabaseUploadProvider implements StrapiUploadProvider {
   private async uploadToSupabase(file: UploadFile | UploadStreamFile, body: 'buffer' | 'stream' = 'buffer'): Promise<string> {
     const path = getFilePath(file)
     const fileBody = body === 'buffer' ? file.buffer  : file.getStream()
-    const fileOptions = {
+    const fileOptions: FileOptions = {
       contentType: file.mime,
       duplex: 'half',
+      upsert: true,
       ...this.options.uploadParams,
     }
 

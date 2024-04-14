@@ -6,13 +6,13 @@ This is a custom provider for Strapi CMS that allows you to use Supabase as a st
 
 To install this package, you can use npm or yarn:
 ```bash
-npm install @strapi/provider-upload-supabase@git+https://github.com/Low-Skilled-Developers/strapi-provider-upload-supabase.git#1.0.1
+npm install @strapi/provider-upload-supabase@https://github.com/Low-Skilled-Developers/strapi-provider-upload-supabase
 ```
 
 or
 
 ```bash
-yarn add @strapi/provider-upload-supabase@git+https://github.com/Low-Skilled-Developers/strapi-provider-upload-supabase.git#1.0.1
+yarn add @strapi/provider-upload-supabase@https://github.com/Low-Skilled-Developers/strapi-provider-upload-supabase
 ```
 
 ## Usage
@@ -86,7 +86,8 @@ The provider configuration accepts the following options:
 
 - [Strapi provider creation](https://docs.strapi.io/dev-docs/providers#creating-providers)
 - [Strapi provider configuring](https://docs.strapi.io/dev-docs/providers#configuring-providers)
-- [Supabase](https://supabase.io/)
+- [Supabase upload file](https://supabase.com/docs/reference/javascript/storage-from-upload?example=upload-file)
+- [Supabase delete files](https://supabase.com/docs/reference/javascript/storage-from-remove?example=delete-file)
 
 ## Contributing
 

@@ -101,6 +101,7 @@ export class SupabaseUploadProvider {
         const fileOptions = {
             contentType: file.mime,
             duplex: 'half',
+            upsert: true,
             ...this.options.uploadParams,
         };
         const uploadResponse = await this.fromBucket.upload(path, fileBody, fileOptions);
