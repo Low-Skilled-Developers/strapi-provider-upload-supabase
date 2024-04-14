@@ -5,18 +5,21 @@ This is a custom provider for Strapi CMS that allows you to use Supabase as a st
 ## Installation
 
 To install this package, you can use npm or yarn:
+```bash
+npm install @strapi/provider-upload-supabase@git+https://github.com/Low-Skilled-Developers/strapi-provider-upload-supabase.git#1.0.1
+```
+
+or
 
 ```bash
-npm install @low-skilled-developers/strapi-provider-upload-supabase
-# or
-yarn add @low-skilled-developers/strapi-provider-upload-supabase
+yarn add @strapi/provider-upload-supabase@git+https://github.com/Low-Skilled-Developers/strapi-provider-upload-supabase.git#1.0.1
 ```
 
 ## Usage
 
 After installing the package, you need to configure it in your Strapi project.
 
-1. Create a new provider configuration in `./config/plugins.ts` or `./config/plugins.js`:
+1. Create a new provider configuration in `config/plugins.ts` or `config/plugins.js`:
 
 ```javascript
 module.exports = ({ env }) => ({
@@ -32,15 +35,36 @@ module.exports = ({ env }) => ({
 });
 ```
 
-1. Set the environment variables in `.env`:
+2. Set the environment variables in `.env`:
 
-```bash
+```dotenv
 SUPABASE_API_URL=your-supabase-api-url
 SUPABASE_API_KEY=your-supabase-api-key
 SUPABASE_BUCKET=your-supabase-bucket
 ```
 
-1. Rebuild your Strapi project:
+3. Replace `strapi::security` element in `config/middlewares.ts` file with:
+```javascript
+  {
+    name: 'strapi::security',
+    config: {
+      contentSecurityPolicy: {
+        directives: {
+          'connect-src': ["'self'", 'https:'],
+          'img-src': ["'self'", 'data:', 'blob:', SUPABASE_API_URL],
+          'media-src': ["'self'", 'data:', 'blob:', SUPABASE_API_URL],
+        },
+      },
+    },
+  }
+```
+
+_NOTE: you could get `process.env` value of `SUPABASE_API_URL` from `@strapi/utils` package:_
+```javascript
+import { env } from '@strapi/utils'
+```
+
+4. Rebuild your Strapi project:
 
 ```bash
 strapi build
@@ -57,6 +81,12 @@ The provider configuration accepts the following options:
 - `bucket`: The name of the bucket where you want to store your media.
 
 [//]: # (- `directory`: The directory inside the bucket where you want to store your media. Optional.)
+
+## Knowledge sources
+
+- [Strapi provider creation](https://docs.strapi.io/dev-docs/providers#creating-providers)
+- [Strapi provider configuring](https://docs.strapi.io/dev-docs/providers#configuring-providers)
+- [Supabase](https://supabase.io/)
 
 ## Contributing
 

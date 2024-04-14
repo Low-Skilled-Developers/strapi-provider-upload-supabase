@@ -6,5 +6,5 @@ export interface ProviderOptions {
   apiKey: string
   bucket: string
   clientOptions: SupabaseClientOptions<any>
-  uploadParams: Omit<FileOptions, 'contentType'>
+  uploadParams: FileOptions
 }

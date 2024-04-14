@@ -63,7 +63,7 @@ export class SupabaseUploadProvider {
         const path = getFilePath(file);
         const { data, error } = await this.fromBucket.remove([path]);
         if (error) {
-            console.log('===> delete error: ', error);
+            // console.log('===> delete error: ', error)
             throw error;
         }
         return data.at(0);
@@ -73,17 +73,17 @@ export class SupabaseUploadProvider {
     //   // implement your own file size limit logic
     // },
     getSignedUrl = async (file) => {
-        console.log('===> getSignedUrl file: ', file);
+        // console.log('===> getSignedUrl file: ', file)
         const params = {
             path: file.path,
             expires: 60, // URL expiration time in seconds
         };
         const { data, error } = await this.fromBucket.createSignedUrl(params.path, params.expires);
         if (error) {
-            console.log('===> getSignedUrl error: ', error);
+            // console.log('===> getSignedUrl error: ', error)
             throw error;
         }
-        console.log('===> getSignedUrl data: ', data);
+        // console.log('===> getSignedUrl data: ', data)
         return {
             url: data.signedUrl,
         };
@@ -99,12 +99,13 @@ export class SupabaseUploadProvider {
         const path = getFilePath(file);
         const fileBody = body === 'buffer' ? file.buffer : file.getStream();
         const fileOptions = {
-            ...this.options.uploadParams,
             contentType: file.mime,
+            duplex: 'half',
+            ...this.options.uploadParams,
         };
         const uploadResponse = await this.fromBucket.upload(path, fileBody, fileOptions);
         if (uploadResponse.error) {
-            console.error('===> upload error: ', uploadResponse.error);
+            // console.error('===> upload error: ', uploadResponse.error)
             throw uploadResponse.error;
         }
         const { publicUrl } = this.fromBucket.getPublicUrl(uploadResponse.data.path).data;
